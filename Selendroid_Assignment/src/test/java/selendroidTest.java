@@ -5,6 +5,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -29,7 +31,8 @@ public class selendroidTest {
     public selendroidTest() throws IOException {
     }
 
-    public static void main(String[] args) throws Exception {
+    @Test
+    public void main() throws Exception {
         openApp();
         displayTextView();
         displayAndFocusOnLayout();
@@ -52,6 +55,7 @@ public class selendroidTest {
         URL url = new URL("http://127.0.0.1:4723/wd/hub");
         driver = new AppiumDriver<MobileElement>(url, cap);
     }
+
 
     public static void displayTextView() throws Exception{
 
@@ -76,6 +80,8 @@ public class selendroidTest {
         String isTextFieldFocused = driver.findElement(By.id("io.selendroid.testapp:id/my_text_field")).getAttribute("focused");
         Assert.assertTrue(isTextFieldFocused, true);
     }
+
+
     public static void sayHelloDemo() throws Exception{
 
 
@@ -85,15 +91,25 @@ public class selendroidTest {
 
         sheet=workbook.getSheetAt(0);
         cell= sheet.getRow(0).getCell(0);
+        String cellValue = cell.getStringCellValue();
 
         Thread.sleep(3000);
         driver.findElement(By.id("io.selendroid.testapp:id/buttonStartWebview")).click();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.findElement(By.className("android.widget.EditText")).clear();
-        driver.findElement(By.className("android.widget.EditText")).sendKeys(cell.getStringCellValue());
+        driver.findElement(By.className("android.widget.EditText")).sendKeys(cellValue);
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Send me your name!\"]")).click();
+
+        //String helloText= driver.findElement(By.className("android.webkit.WebView")).getText();
+       // Assert.assertTrue(helloText.contains(cellValue));
+
+        Thread.sleep(3000);
+
+
         driver.findElement(By.id("io.selendroid.testapp:id/goBack")).click();
 
     }
+
 
     public static void unhandledException() throws Exception{
 
